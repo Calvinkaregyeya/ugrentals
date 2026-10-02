@@ -1,0 +1,15 @@
+{
+  "name": "ugrentals",
+  "version": "1.0.0",
+  "description": "UG Rentals — Express app serving a landing page and a JSON API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

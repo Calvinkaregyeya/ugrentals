@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UG Rentals</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #666;
+      --accent: #c8102e;
+      --card: #f6f6f6;
+      --border: #e2e2e2;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141414;
+        --fg: #f0f0f0;
+        --muted: #a0a0a0;
+        --accent: #ff5a73;
+        --card: #1e1e1e;
+        --border: #2e2e2e;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 48px 16px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    main { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 2rem; margin: 0 0 8px; }
+    .tagline { color: var(--muted); margin: 0 0 32px; }
+    ul.listings { list-style: none; padding: 0; display: grid; gap: 12px; }
+    .listing {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .listing h2 { font-size: 1.05rem; margin: 0 0 4px; }
+    .listing p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .price { color: var(--accent); font-weight: 600; }
+    footer { margin-top: 40px; font-size: 0.9rem; color: var(--muted); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>UG Rentals</h1>
+    <p class="tagline">Find houses, apartments and hostels to rent across Uganda.</p>
+
+    <ul class="listings">
+      <li class="listing">
+        <h2>2-bedroom apartment — Ntinda, Kampala</h2>
+        <p>Self-contained, parking, borehole water. <span class="price">UGX 1,200,000 / month</span></p>
+      </li>
+      <li class="listing">
+        <h2>Single room — Wandegeya</h2>
+        <p>Walking distance to Makerere University. <span class="price">UGX 250,000 / month</span></p>
+      </li>
+      <li class="listing">
+        <h2>3-bedroom bungalow — Entebbe</h2>
+        <p>Fenced compound, 10 minutes from the airport. <span class="price">UGX 2,500,000 / month</span></p>
+      </li>
+    </ul>
+
+    <footer>
+      API status: <a href="/api">/api</a>
+    </footer>
+  </main>
+</body>
+</html>
