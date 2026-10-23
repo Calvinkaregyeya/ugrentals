@@ -1,22 +1,8 @@
-import express from "express";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { app } from "./app.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const app = express();
 const port = process.env.PORT ?? 3000;
+const host = process.env.HOST ?? "0.0.0.0";
 
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/api", (req, res) => {
-  res.json({
-    success: true,
-    message: "Operation successful",
-    data: "Welcome to Osebo API!!!",
-  });
-});
-
-app.listen(port, () => {
-  console.log(`UG Rentals listening on http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`UG Rentals listening on http://${host}:${port}`);
 });
