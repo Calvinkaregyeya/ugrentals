@@ -1,0 +1,5 @@
+name: Hand-Rolled CI
+
+on:
+  push:
+    branches: [main]
