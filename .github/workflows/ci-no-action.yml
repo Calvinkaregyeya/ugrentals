@@ -17,6 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Exercise 1-4"
+      - run: |
+          echo "Workspace: $GITHUB_WORKSPACE"
+          ls -la "$GITHUB_WORKSPACE"
+          echo "Repo: $GITHUB_REPOSITORY"
+          echo "Commit: $GITHUB_SHA"
+          echo "Event: $GITHUB_EVENT_NAME on $GITHUB_REF"
+          git --version && node --version && docker --version && jq --version
+
   
   build:
     name: Build
