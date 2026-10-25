@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+# Least-privilege token for the job. Reading the repo is all we need.
+permissions:
+  contents: read
+
+# A workflow is made of jobs. Jobs run in parallel on separate machines
+# unless you link them with `needs:`. We only need one job here.
+jobs:
+  test:
+    name: Test
+    # A fresh Ubuntu virtual machine, thrown away when the job finishes.
+    runs-on: ubuntu-latest
+
+    # Steps run in order on that machine. `uses:` runs a published action,
+    # `run:` runs a shell command.
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          # Read the version from .nvmrc so local and CI always match.
+          node-version-file: .nvmrc
+          # Cache ~/.npm between runs, keyed on package-lock.json.
+          cache: npm
+
+      - name: Install dependencies
+        # `npm ci` installs exactly what the lockfile says and fails if
+        # package.json and package-lock.json disagree. Use it in CI
+        # instead of `npm install`.
+        run: npm ci
+
+      - name: Run tests
+        # A non-zero exit code from any step fails the job, which fails
+        # the workflow, which shows a red X on the commit or PR.
+        run: npm test
