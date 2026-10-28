@@ -102,6 +102,18 @@ jobs:
         run: |
           set -u
           docker build -t "$IMAGE:$TAG" .
+      
+      - name: Gate on image size
+        env:
+          IMAGE: ${{ steps.meta.outputs.image }}
+          TAG: ${{ steps.meta.outputs.tag }}
+          LIMIT_MB: 300
+        run: |
+          set -u
+          BYTES="$(docker image inspect "$IMAGE:$TAG" --format '{{.Size}}')"
+          MB=$(( BYTES / 1024 /1024 ))
+          echo "### Image size: ${MB} MB (limit: ${LIMIT_MB} MB)" >> "$GITHUB_STEP_SUMMARY"
+          test "$MB" -le "$LIMIT_MB"
 
   deploy:
     name: Deploy
