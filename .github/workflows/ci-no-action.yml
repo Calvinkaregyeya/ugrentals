@@ -115,6 +115,23 @@ jobs:
           echo "### Image size: ${MB} MB (limit: ${LIMIT_MB} MB)" >> "$GITHUB_STEP_SUMMARY"
           test "$MB" -le "$LIMIT_MB"
 
+      - name: Smoke test the container
+        env:
+          IMAGE: ${{ steps.meta.outputs.image }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          docker run --detach --rm --publish 3000:3000 --name smoke "$IMAGE:$TAG"
+          trap 'docker stop smoke > /dev/null' EXIT
+          for attempt in $(seq 1 10); do
+            if curl --fail --silent --show-error http://localhost:3000/api; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Server never answered. Container logs:"
+          docker logs smoke
+          exit 1
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
