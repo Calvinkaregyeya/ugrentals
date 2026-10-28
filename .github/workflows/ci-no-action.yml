@@ -1,4 +1,4 @@
-name: Hand-Rolled CI
+name: Hand-Rolled CI/CD
 
 on:
   push:
@@ -17,7 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Exercise 1-4"
-      - run: |
+      - name: What the runner starts with?
+        run: |
           echo "Workspace: $GITHUB_WORKSPACE"
           ls -la "$GITHUB_WORKSPACE"
           echo "Repo: $GITHUB_REPOSITORY"
