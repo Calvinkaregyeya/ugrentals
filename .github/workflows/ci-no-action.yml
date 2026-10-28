@@ -94,6 +94,14 @@ jobs:
           echo "tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "Will build and push image: ${IMAGE}:${tag}"
 
+      - name: Build the Docker image
+        env:
+          IMAGE: ${{ steps.meta.outputs.image }}
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          set -u
+          docker build -t "${IMAGE}:${TAG}" .
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
