@@ -30,8 +30,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -u
           git init --quiet .
-          git remote add origin "https://x-access-token:${GIHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git fetch --quiet --depth=1 origin "${GITHUB_SHA}"
           git checkout --quiet FETCH_HEAD
           git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
@@ -53,8 +54,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -u
           git init --quiet .
-          git remote add origin "https://x-access-token:${GIHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git fetch --quiet --depth=1 origin "${GITHUB_SHA}"
           git checkout --quiet FETCH_HEAD
           git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
