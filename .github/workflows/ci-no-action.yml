@@ -16,7 +16,8 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Exercise 1-4"
+      - name: Exercise 1-4
+        run: echo "Exercise 1-4 to be covered in this Job"
       - name: What the runner starts with?
         run: |
           echo "Workspace: $GITHUB_WORKSPACE"
@@ -25,6 +26,17 @@ jobs:
           echo "Commit: $GITHUB_SHA"
           echo "Event: $GITHUB_EVENT_NAME on $GITHUB_REF"
           git --version && node --version && docker --version && jq --version
+      - name: Checkout commit that triggered this run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git init --quiet .
+          git remote add origin "https://x-access-token:${GIHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --quiet --depth=1 origin "${GITHUB_SHA}"
+          git checkout --quiet FETCH_HEAD
+          git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git log --oneline -1
+          ls -la
 
   
   build:
@@ -35,7 +47,19 @@ jobs:
       contents: read
       packages: write
     steps:
-      - run: echo "Exercise 2, 5 and 9"
+      - name: Exercise 2, 5 and 9
+        run: echo "Exercise 2, 5 and 9 to be covered in this Job"
+      - name: Checkout commit that triggered this run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git init --quiet .
+          git remote add origin "https://x-access-token:${GIHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --quiet --depth=1 origin "${GITHUB_SHA}"
+          git checkout --quiet FETCH_HEAD
+          git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git log --oneline -1
+          ls -la
 
   deploy:
     name: Deploy
