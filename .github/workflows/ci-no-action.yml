@@ -85,10 +85,14 @@ jobs:
           git remote set-url origin "https://github.com/${GITHUB_REPOSITORY}.git"
           git log --oneline -1
           ls -la
-      - name: Install the node version specified in the .nvmrc file
+      - name: Decide Image name and tag
         run: |
           set -u
-          
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          tag="${GITHUB_SHA::7}"
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "Will build and push image: ${IMAGE}:${tag}"
 
   deploy:
     name: Deploy
