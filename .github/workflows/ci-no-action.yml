@@ -100,7 +100,7 @@ jobs:
           TAG: ${{ steps.meta.outputs.tag }}
         run: |
           set -u
-          docker build -t "${IMAGE}:${TAG}" .
+          docker build -t "$IMAGE:$TAG" .
 
   deploy:
     name: Deploy
