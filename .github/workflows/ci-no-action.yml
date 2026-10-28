@@ -39,13 +39,9 @@ jobs:
           git log --oneline -1
           ls -la
       - name: Install the node version specified in the .nvmrc file
-        run: |
-          set -u
-          MAJOR="$(tr -d 'v[:space:]' < .nvmrc)"
-          VERSION="$(curl -fsSL "https://nodejs.org/dist/index.json" \
-            | jq -r --arg m "$MAJOR" '[.[] | select(.version | startswith("v" + $m + "."))][0].version')"
-          curl -fsSL "https://nodejs.org/dist/${VERSION}/node-${VERSION}-linux-x64.tar.xz" | tar -xJ -C "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/node-${VERSION}-linux-x64/bin" >> "$GITHUB_PATH"
+        uses: ./.github/actions/setup-node
+        with:
+          version-file: .nvmrc
 
       - name: Print the node version to verify that it is correctly installed
         run: node --version && npm --version

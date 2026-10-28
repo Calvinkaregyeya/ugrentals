@@ -1,0 +1,20 @@
+name: Setup Node from version file
+description: Downloads the matching Node release and puts it on PATH
+
+inputs:
+  version-file:
+    description: File holding the major version
+    default: .nvmrc
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        VERSION_FILE: ${{ inputs.version-file }}
+      run: |
+        MAJOR="$(tr -d 'v[:space:]' < "$VERSION_FILE")"
+        VERSION="$(curl -fsSL https://nodejs.org/dist/index.json \
+          | jq -r --arg m "$MAJOR" '[.[] | select(.version | startswith("v" + $m + "."))][0].version')"
+        curl -fsSL "https://nodejs.org/dist/${VERSION}/node-${VERSION}-linux-x64.tar.xz" | tar -xJ -C "$RUNNER_TEMP"
+        echo "$RUNNER_TEMP/node-${VERSION}-linux-x64/bin" >> "$GITHUB_PATH"
