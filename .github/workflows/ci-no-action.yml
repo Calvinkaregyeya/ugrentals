@@ -70,6 +70,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      image: ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}
     steps:
       - name: Exercise 2, 5 and 9
         run: echo "Exercise 2, 5 and 9 to be covered in this Job"
@@ -153,5 +155,8 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment: production
     steps:
-      - run: echo "Exercise 10 goes here"
+      - name: Pretend to deploy the image to production
+        env:
+          IMAGE: ${{ needs.build.outputs.image }}
+        run: echo "### Would deploy $IMAGE to production" >> "$GITHUB_STEP_SUMMARY"
     
