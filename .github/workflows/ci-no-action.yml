@@ -49,6 +49,18 @@ jobs:
 
       - name: Print the node version to verify that it is correctly installed
         run: node --version && npm --version
+
+      - name: Install dependencies exactly as specified in package-lock.json
+        run: npm ci
+      
+      - name: Fail on know high-severity vulnerabilities
+        run: npm audit --audit-level=high
+      
+      - name: Run tests with node test runner
+        run: npm run test:node
+
+      - name: Run tests with Vitest test runner
+        run: npm run test:vitest
           
   
   build:
