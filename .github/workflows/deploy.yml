@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: DEPLOY over SSH
         env:
-          ENV_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
         run: |
           set -u
           umask 077
