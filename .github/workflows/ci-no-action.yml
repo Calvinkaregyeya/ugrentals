@@ -149,10 +149,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    environment: production
-    steps:
-      - name: Pretend to deploy the image to production
-        env:
-          IMAGE: ${{ needs.build.outputs.image }}
-        run: echo "### Would deploy $IMAGE to production" >> "$GITHUB_STEP_SUMMARY"
+    uses: /github/workflows/deploy.
+    with:
+      image: ${{ needs.build.outputs.image }}
+    secrets: inherit
+
     
