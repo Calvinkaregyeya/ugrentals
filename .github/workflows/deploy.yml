@@ -34,7 +34,7 @@ jobs:
         run: |
           set -u
           umask 077
-          echo "$EC2-SSH_KEY" > key.pem
+          echo "$EC2_SSH_KEY" > key.pem
           ssh -i key.pem -o StrictHostKeyChecking=accept-new " "ec2-user@${EC2_HOST}" "IMAGE='${IMAGE}' bash -s" <<'REMOTE'
           set -e
           docker pull "$IMAGE"
@@ -44,3 +44,17 @@ jobs:
           dockerimage prune -f
           REMOTE
           rm -f key.pem
+      - name: Check that API is running publicly
+        run: |
+          set -u
+          for attempt in $(seq 1 10); do
+            if curl --fail --silent --show-error "http://${EC2_HOST}/api"; then
+              echo
+              echo "### Deployed \`${IMAGE}\` to http://${EC2_HOST}/api" >> "¢GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "API never answered on http://${EC2_HOST}/api"
+          exit 1
+
