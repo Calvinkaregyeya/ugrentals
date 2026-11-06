@@ -148,7 +148,7 @@ jobs:
     name: Deploy
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    uses: /github/workflows/deploy.yml
+    uses: ./github/workflows/deploy.yml
     with:
       image: ${{ needs.build.outputs.image }}
     secrets: inherit
