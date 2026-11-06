@@ -38,8 +38,8 @@ jobs:
           ssh -i key.pem -o StrictHostKeyChecking=accept-new "ec2-user@${EC2_HOST}" "IMAGE='${IMAGE}' bash -s" <<'REMOTE'
           set -e
           docker pull "$IMAGE"
-          docker stop api 2>/dev/null || true
-          docker rm api 2>/dev/null || true
+          docker stop ugrentals-api 2>/dev/null || true
+          docker rm ugrentals-api 2>/dev/null || true
           docker run -d --name ugrentals-api --restart unless-stopped -p 80:3000 "$IMAGE"
           docker image prune -f
           REMOTE
